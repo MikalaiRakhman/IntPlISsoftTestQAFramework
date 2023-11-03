@@ -1,40 +1,44 @@
-﻿using OpenQA.Selenium;
+﻿using IntISsoftTestQAFramework.Pages;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YahooISsoftTestQAFramework
+namespace IntISsoftTestQAFramework
 {
     public class Program
     {
+     
         static void Main(string[] args)
         {
-            // открыть главную страницу
-             IWebDriver driver = new ChromeDriver();
-             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-             YahooMainPage yahooMainPage = new YahooMainPage(driver, wait);
-             yahooMainPage.AcceptCookies();
 
-            FirstUserYahoo firstUserYahoo = new FirstUserYahoo();
-            string name = firstUserYahoo.GetLastName();
             
-            // открыть логин страницу
-            /*IWebDriver driver = new ChromeDriver();
+            
+            IWebDriver driver = new ChromeDriver();
+            IWebDriver driver2 = new ChromeDriver();
+            
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            YahooLoginPage loginPage = new YahooLoginPage(driver, wait);
-            */
-            // открыть мэйл страницу невозможно, если не залогинен
-            /*IWebDriver driver = new ChromeDriver();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            YahooMailPage mailPage = new YahooMailPage(driver, wait);
-            driver.FindElement(By.XPath("//button[@class='btn secondary accept-all ']")).Click();
-            */
+  
+            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
+            SecondUserIntPl second = new SecondUserIntPl(driver2, wait);
+            second.Login();
+            first.Login();
             
             driver.Close();
+            driver2.Close();
+           
+
+
+
+
+
+            
             
         }
     }

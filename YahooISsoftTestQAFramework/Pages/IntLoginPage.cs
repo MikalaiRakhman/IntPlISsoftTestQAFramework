@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
 
-namespace YahooISsoftTestQAFramework
+namespace IntISsoftTestQAFramework.Pages
 {
-    internal class YahooLoginPage : YahooBasePage
+    internal class IntLoginPage : IntPlBasePage
     {
-        public YahooLoginPage(IWebDriver webDriver, WebDriverWait wait) : base(webDriver, LOGIN_PAGE) 
+
+        public IntLoginPage(IWebDriver webDriver) : base(webDriver, LOGIN_PAGE)
         {
 
         }
-        
+
     }
 }

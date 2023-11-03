@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
+using IntISsoftTestQAFramework.Pages;
 
-namespace YahooISsoftTestQAFramework
+namespace IntISsoftTestQAFramework
 {
-    internal class YahooMailPage : YahooBasePage
+    internal class IntPlMailPage : IntPlBasePage
     {
-        public YahooMailPage(IWebDriver webDriver, WebDriverWait wait) : base(webDriver, MAIL_PAGE)
+        public IntPlMailPage(IWebDriver webDriver) : base(webDriver, MAIL_PAGE)
         {
 
         }
