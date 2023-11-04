@@ -12,12 +12,14 @@ namespace IntISsoftTestQAFramework.Pages
 {
     internal class IntPlMainPage : IntPlBasePage
     {
-        public const string MAIN_INPUT_MAIL_PLACEHOLDER = "//*[@id='emailId']";
-        public const string MAIN_LOGIN_BUTTON = "//button[@class='button button--left button--smaller button--mark button--moema']";
-        public const string MAIN_INPUT_PASSWORD_PLACEHOLDER = "//*[@id='passwordId']";
-        public IntPlMainPage(IWebDriver webDriver) : base(webDriver, MAIN_PAGE)
-        {
+        const string MAIN_INPUT_MAIL_PLACEHOLDER = "//*[@id='emailId']";
+        const string MAIN_LOGIN_BUTTON = "//button[@class='button button--left button--smaller button--mark button--moema']";
+        const string MAIN_INPUT_PASSWORD_PLACEHOLDER = "//*[@id='passwordId']";
 
+        
+        public IntPlMainPage(IWebDriver webDriver) : base(webDriver , MAIN_PAGE) 
+        {
+            
         }
 
         public string GetInputMailPLaceHolder()

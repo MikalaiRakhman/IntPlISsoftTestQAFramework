@@ -6,17 +6,16 @@ namespace IntISsoftTestQAFramework.Users
 {
     public abstract class UsersIntPl
     {
-        public IWebDriver _driver;
-        public WebDriverWait _wait;
+        public IWebDriver driver;
+        public WebDriverWait wait;
 
 
-
+        
 
         public UsersIntPl(IWebDriver driver, WebDriverWait wait)
         {
-            _driver = driver;
-            _wait = wait;
-
+            this.driver = driver;
+            this.wait = wait;
         }
 
         public abstract string GetFirstName();
@@ -34,6 +33,8 @@ namespace IntISsoftTestQAFramework.Users
         public abstract string GetPhoneNumber();
 
         public abstract void Login();
+
+        public abstract void Logout();
 
 
     }

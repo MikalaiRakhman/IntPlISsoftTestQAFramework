@@ -16,22 +16,16 @@ namespace IntISsoftTestQAFramework
     {
      
         static void Main(string[] args)
-        {
+        {           
+            IWebDriver driver = new ChromeDriver();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
+  
+            first.Login();
 
             
-            
-            IWebDriver driver = new ChromeDriver();
-            IWebDriver driver2 = new ChromeDriver();
-            
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-  
-            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
-            SecondUserIntPl second = new SecondUserIntPl(driver2, wait);
-            second.Login();
-            first.Login();
-            
             driver.Close();
-            driver2.Close();
+            
            
 
 

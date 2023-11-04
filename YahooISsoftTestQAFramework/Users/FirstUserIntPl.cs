@@ -63,14 +63,22 @@ namespace IntISsoftTestQAFramework
         public override void Login()
         {
             
-            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
-            IntPlMainPage mainPage = new IntPlMainPage(_driver);
-            FirstUserIntPl first = new FirstUserIntPl(_driver, _wait);
-            _driver.FindElement(By.XPath(mainPage.GetInputMailPLaceHolder())).SendKeys(first.GetMailAdress());
-            _driver.FindElement(By.XPath(mainPage.GetInputPasswordPLaceHolder())).Click();
-            _driver.FindElement(By.XPath(mainPage.GetInputPasswordPLaceHolder())).SendKeys(first.GetPassword());
-            _driver.FindElement(By.XPath(mainPage.GetLoginButton())).Click();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            IntPlMainPage mainPage = new IntPlMainPage(driver);
+            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
+            driver.FindElement(By.XPath(mainPage.GetInputMailPLaceHolder())).SendKeys(first.GetMailAdress());
+            driver.FindElement(By.XPath(mainPage.GetInputPasswordPLaceHolder())).Click();
+            driver.FindElement(By.XPath(mainPage.GetInputPasswordPLaceHolder())).SendKeys(first.GetPassword());
+            driver.FindElement(By.XPath(mainPage.GetLoginButton())).Click();
 
+        }
+
+        public override void Logout()
+        {
+            IntPlMailPage mailPage = new IntPlMailPage(driver);
+            driver.FindElement(By.XPath(mailPage.GetMailAvatarButton())).Click();
+            driver.FindElement(By.XPath(mailPage.GetMailLogoutButton())).Click();
+           
         }
     }
 }
