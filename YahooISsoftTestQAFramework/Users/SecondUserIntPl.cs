@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using IntISsoftTestQAFramework.Users;
 using IntISsoftTestQAFramework.Pages;
+using OpenQA.Selenium.Interactions;
+using SeleniumExtras.WaitHelpers;
 
 namespace IntISsoftTestQAFramework
 {
@@ -18,13 +20,19 @@ namespace IntISsoftTestQAFramework
         string _mailAdress { get; }
         string _password { get; }
         string _phoneNumber { get; }
+
+        string _themeSecondUser;
+        string _letterFromSecondUser;
         public SecondUserIntPl(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _firstName = "Pavel";
             _lastName = "Morozov";
-            _mailAdress = "pavelmorozov302";
+            _mailAdress = "pavelmorozov302@int.pl";
             _password = "x%Y%c78@/n!T.bx";
             _phoneNumber = "572057407";
+            _themeSecondUser = "LETTER FROM SECOND USER";
+            _letterFromSecondUser = "Hello Pupkin!!!";
+
         }
 
         public override string GetFirstName()
@@ -68,6 +76,37 @@ namespace IntISsoftTestQAFramework
             IntPlMailPage mailPage = new IntPlMailPage(driver);
             driver.FindElement(By.XPath(mailPage.GetMailAvatarButton())).Click();
             driver.FindElement(By.XPath(mailPage.GetMailLogoutButton())).Click();
+        }
+
+        public override void CreateLetter()
+        {
+            SecondUserIntPl second = new SecondUserIntPl(driver, wait);
+            Actions actions = new Actions(driver);
+
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(BUTTON_NEW_MESSEGE)));
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath(BUTTON_NEW_MESSEGE)).Click();
+
+            driver.FindElement(By.XPath(TO_PLACEHOLDER)).Click();
+            var elemThemePlaceHolder = driver.FindElement(By.XPath(THEME_PLACEHOLDER));
+
+            driver.FindElement(By.XPath(TO_PLACEHOLDER)).SendKeys(second.GetMailAdress());
+
+            var elemButtonSendMessege = driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE));
+            var elemLetterArea = driver.FindElement(By.XPath(LETTER_AREA));
+
+            actions.MoveToElement(elemLetterArea)
+                    .Click()
+                    .MoveToElement(elemThemePlaceHolder)
+                    .Click()
+                    .SendKeys(_themeSecondUser)
+                    .MoveToElement(elemLetterArea)
+                    .Click()
+                    .SendKeys(_letterFromSecondUser)
+                    .MoveToElement(elemButtonSendMessege)
+                    .Click()
+                    .Build()
+                    .Perform();
         }
     }
 }
