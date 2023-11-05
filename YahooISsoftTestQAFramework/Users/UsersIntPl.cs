@@ -15,6 +15,9 @@ namespace IntISsoftTestQAFramework.Users
         public const string BUTTON_SEND_MESSEGE = "//button[@class='button']";
         public const string BUTTON_NEW_MESSEGE = "//div[@class='navigation__new']";
         public const string LETTER_AREA = "/html";
+        public const string REPLY = "//span[@class='icon icon-reply'][1]";
+        public const string ANSWER_FROM_FIRST = "Re: LETTER FROM SECOND USER";
+        public const string ANSWER_FROM_SECOND_USER = "Re: LETTER FROM FIRST USER";
 
 
 
@@ -43,6 +46,12 @@ namespace IntISsoftTestQAFramework.Users
         public abstract void Logout();
 
         public abstract void CreateLetter();
+
+        public abstract bool CheckLetter();
+
+        public abstract void ReplyLetter();
+
+        public abstract bool CheckReplyLetter();
 
 
     }

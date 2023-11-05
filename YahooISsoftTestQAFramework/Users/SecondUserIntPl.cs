@@ -23,6 +23,9 @@ namespace IntISsoftTestQAFramework
 
         string _themeSecondUser;
         string _letterFromSecondUser;
+        string _lastLetterFromFirstUser;
+        string _letterThemeFromFirstUser;
+        string answerFromFirstUserXPath = "//span[text()='Re: LETTER FROM SECOND USER']";
         public SecondUserIntPl(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
             _firstName = "Pavel";
@@ -32,6 +35,8 @@ namespace IntISsoftTestQAFramework
             _phoneNumber = "572057407";
             _themeSecondUser = "LETTER FROM SECOND USER";
             _letterFromSecondUser = "Hello Pupkin!!!";
+            _lastLetterFromFirstUser = "//span[@title='vasiapupkin359@int.pl'][1]";
+            _letterThemeFromFirstUser = "//span[text()='LETTER FROM FIRST USER']";
 
         }
 
@@ -80,17 +85,16 @@ namespace IntISsoftTestQAFramework
 
         public override void CreateLetter()
         {
-            SecondUserIntPl second = new SecondUserIntPl(driver, wait);
+            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
             Actions actions = new Actions(driver);
 
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(BUTTON_NEW_MESSEGE)));
             Thread.Sleep(1000);
             driver.FindElement(By.XPath(BUTTON_NEW_MESSEGE)).Click();
-
             driver.FindElement(By.XPath(TO_PLACEHOLDER)).Click();
             var elemThemePlaceHolder = driver.FindElement(By.XPath(THEME_PLACEHOLDER));
 
-            driver.FindElement(By.XPath(TO_PLACEHOLDER)).SendKeys(second.GetMailAdress());
+            driver.FindElement(By.XPath(TO_PLACEHOLDER)).SendKeys(first.GetMailAdress());
 
             var elemButtonSendMessege = driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE));
             var elemLetterArea = driver.FindElement(By.XPath(LETTER_AREA));
@@ -107,6 +111,40 @@ namespace IntISsoftTestQAFramework
                     .Click()
                     .Build()
                     .Perform();
+        }
+
+        public override bool CheckLetter()
+        {
+            var elemlastLetterFromFirstUser = driver.FindElement(By.XPath(_lastLetterFromFirstUser));
+            bool isLetterFromFromFirstUser = elemlastLetterFromFirstUser.Displayed;
+            var elemletterWhisWriteTheme = driver.FindElement(By.XPath(_letterThemeFromFirstUser));
+            bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
+            return isLetterFromFromFirstUser && isThemeCorrect;
+        }
+
+        public override void ReplyLetter()
+        {
+            Actions actions = new Actions(driver);
+            driver.FindElement(By.XPath(REPLY)).Click();
+            driver.FindElement(By.XPath(LETTER_AREA)).Click();
+            var elemLetterArea = driver.FindElement(By.XPath("/html"));
+            var elemButtonSendMessege = driver.FindElement(By.XPath("//button[@class='button']"));
+            actions.MoveToElement(elemLetterArea)
+                    .Click()
+                    .SendKeys("LETTER REPLY")
+                    .MoveToElement(elemButtonSendMessege)
+                    .Click()
+                    .Build()
+                    .Perform();
+        }
+
+        public override bool CheckReplyLetter()
+        {
+            var elemlastLetterFromFirstUser = driver.FindElement(By.XPath(_lastLetterFromFirstUser));
+            bool isLetterFromFromFirstUser = elemlastLetterFromFirstUser.Displayed;
+            var elemletterWhisWriteTheme = driver.FindElement(By.XPath(answerFromFirstUserXPath));
+            bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
+            return isLetterFromFromFirstUser && isThemeCorrect;
         }
     }
 }
