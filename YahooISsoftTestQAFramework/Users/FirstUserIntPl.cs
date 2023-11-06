@@ -101,17 +101,17 @@ namespace IntISsoftTestQAFramework
             Actions actions = new Actions(driver);
             IntPlMailPage mailPage = new IntPlMailPage(driver); 
 
-            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(BUTTON_NEW_MESSEGE)));
+            wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(mailPage.GetButtonNewMessege())));
             Thread.Sleep(1000);
-            driver.FindElement(By.XPath(BUTTON_NEW_MESSEGE)).Click();
+            driver.FindElement(By.XPath(mailPage.GetButtonNewMessege())).Click();
             
-            driver.FindElement(By.XPath(TO_PLACEHOLDER)).Click();
-            var elemThemePlaceHolder = driver.FindElement(By.XPath(THEME_PLACEHOLDER));
+            driver.FindElement(By.XPath(mailPage.GetToWhomPlaceHolder())).Click();
+            var elemThemePlaceHolder = driver.FindElement(By.XPath(mailPage.GetThemePlaceHolder()));
             
-            driver.FindElement(By.XPath(TO_PLACEHOLDER)).SendKeys(second.GetMailAdress());
+            driver.FindElement(By.XPath(mailPage.GetToWhomPlaceHolder())).SendKeys(second.GetMailAdress());
             
             var elemButtonSendMessege = driver.FindElement(By.XPath(mailPage.GetButtonSendMessege()));
-            var elemLetterArea = driver.FindElement(By.XPath(LETTER_AREA));
+            var elemLetterArea = driver.FindElement(By.XPath(mailPage.GetLetterArea()));
 
             actions.MoveToElement(elemLetterArea)  
                     .Click()
@@ -140,8 +140,9 @@ namespace IntISsoftTestQAFramework
         public override void ReplyLetter()
         {
             Actions actions = new Actions(driver);
+            IntPlMailPage mailPage = new IntPlMailPage(driver);
             driver.FindElement(By.XPath(REPLY)).Click();
-            driver.FindElement(By.XPath(LETTER_AREA)).Click();
+            driver.FindElement(By.XPath(mailPage.GetLetterArea())).Click();
             var elemLetterArea = driver.FindElement(By.XPath("/html"));
             var elemButtonSendMessege = driver.FindElement(By.XPath("//button[@class='button']"));
             actions.MoveToElement(elemLetterArea)

@@ -2,7 +2,7 @@
 
 namespace IntISsoftTestQAFramework.Pages
 {
-    internal class IntPlMainPage : IntPlBasePage
+    public class IntPlMainPage : IntPlBasePage
     {
         const string MAIN_INPUT_MAIL_PLACEHOLDER = "//*[@id='emailId']";
         const string MAIN_LOGIN_BUTTON = "//button[@class='button button--left button--smaller button--mark button--moema']";
