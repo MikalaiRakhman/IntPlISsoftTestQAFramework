@@ -8,7 +8,7 @@ namespace IntISsoftTestQAFramework.Users
         public IWebDriver driver;
         public WebDriverWait wait;
 
-        public const string TO_PLACEHOLDER = "//input[@aria-label='Do']";
+        
         public const string THEME_PLACEHOLDER = "//*[@id='subject']";
         public const string LETTER_PLACEHOLDER = "//div[@class='mce-edit-area mce-container mce-panel mce-stack-layout-item mce-last']";
         

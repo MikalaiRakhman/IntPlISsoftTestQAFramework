@@ -58,7 +58,7 @@ namespace IntPlTest
 	7. Проверить что письмо с заданным на шаге 2 телом и заголовком получено. Если письмо еще не получено- выполнить ожидание, не более 10 минут.
 	8. Ответить на письмо путем нажатия на кнопку Reply. Текст ответа произвольный
 	9. Выполнить выход с учетной записи второго пользователя, выполнить вход с учетной записью первого пользователя и проверить что получен ответ с заданным текстом.*/
-        public void IntPlSendMessegeAndReplyMessegeTest()
+        public void IntPlSendMessegeAndReplyMessegeTest1()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             FirstUserIntPl first = new FirstUserIntPl(driver, wait);
@@ -83,6 +83,35 @@ namespace IntPlTest
 
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }
+
+
+        [TestMethod]
+        public void IntPlSendMessegeAndReplyMessegeTest2()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
+            SecondUserIntPl second = new SecondUserIntPl(driver, wait);
+            second.Login();
+            Thread.Sleep(5000);
+            second.CreateLetter();
+            Thread.Sleep(5000);
+            second.Logout();
+            Thread.Sleep(5000);
+            first.Login();
+            Thread.Sleep(5000);
+            bool firstLetterArrivedAndCorrect = first.CheckLetter();
+            first.ReplyLetter();
+            Thread.Sleep(5000);
+            first.Logout();
+            Thread.Sleep(5000);
+            second.Login();
+            Thread.Sleep(5000);
+            bool replyLetterArrivedAndCorrect = second.CheckReplyLetter();
+            second.Logout();
+
+            Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
+        }
+
 
 
         [TestCleanup]

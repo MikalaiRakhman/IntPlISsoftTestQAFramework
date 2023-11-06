@@ -12,7 +12,7 @@ namespace IntISsoftTestQAFramework
         const string BUTTON_NEW_MESSEGE = "//div[@class='navigation__new']";
         const string THEME_PLACEHOLDER = "//*[@id='subject']";
         const string TO_WHOM_PLACEHOLDER = "//input[@aria-label='Do']";
-        const string REPLY_BUTTON = "//li[@class='message__toolbar__actions__item'][1]";
+        const string REPLY_BUTTON = "//span[@class='icon icon-reply'][1]";
         
         public IntPlMailPage(IWebDriver webDriver) : base(webDriver, MAIL_PAGE)
         {

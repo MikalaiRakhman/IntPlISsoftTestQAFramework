@@ -23,6 +23,8 @@ namespace IntISsoftTestQAFramework
             //first.Logout();
             //Thread.Sleep(5000);
             second.Login();
+            second.CreateLetter();
+            Thread.Sleep(5000);
      
             driver.Close();
             

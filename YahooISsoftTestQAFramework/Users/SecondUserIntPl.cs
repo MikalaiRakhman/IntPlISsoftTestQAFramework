@@ -87,10 +87,8 @@ namespace IntISsoftTestQAFramework
             Thread.Sleep(1000);
             driver.FindElement(By.XPath(mailPage.GetButtonNewMessege())).Click();
             driver.FindElement(By.XPath(mailPage.GetToWhomPlaceHolder())).Click();
-            var elemThemePlaceHolder = driver.FindElement(By.XPath(mailPage.GetToWhomPlaceHolder()));
-
+            var elemThemePlaceHolder = driver.FindElement(By.XPath(mailPage.GetThemePlaceHolder()));
             driver.FindElement(By.XPath(mailPage.GetToWhomPlaceHolder())).SendKeys(first.GetMailAdress());
-
             var elemButtonSendMessege = driver.FindElement(By.XPath(mailPage.GetButtonSendMessege()));
             var elemLetterArea = driver.FindElement(By.XPath(LETTER_AREA));
 
@@ -119,11 +117,13 @@ namespace IntISsoftTestQAFramework
 
         public override void ReplyLetter()
         {
+            IntPlMailPage mailPage = new IntPlMailPage(driver);
             Actions actions = new Actions(driver);
-            driver.FindElement(By.XPath(REPLY)).Click();
-            driver.FindElement(By.XPath(LETTER_AREA)).Click();
-            var elemLetterArea = driver.FindElement(By.XPath("/html"));
-            var elemButtonSendMessege = driver.FindElement(By.XPath("//button[@class='button']"));
+            Thread.Sleep(1000);
+            driver.FindElement(By.XPath(mailPage.GetReplyButton())).Click();
+            driver.FindElement(By.XPath(mailPage.GetLetterArea())).Click();
+            var elemLetterArea = driver.FindElement(By.XPath(mailPage.GetLetterArea()));
+            var elemButtonSendMessege = driver.FindElement(By.XPath(mailPage.GetButtonSendMessege()));
             actions.MoveToElement(elemLetterArea)
                     .Click()
                     .SendKeys("LETTER REPLY")
