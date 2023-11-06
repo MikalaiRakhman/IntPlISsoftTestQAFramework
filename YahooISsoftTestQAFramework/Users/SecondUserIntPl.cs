@@ -1,11 +1,5 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Chrome;
 using IntISsoftTestQAFramework.Users;
 using IntISsoftTestQAFramework.Pages;
 using OpenQA.Selenium.Interactions;
@@ -13,7 +7,7 @@ using SeleniumExtras.WaitHelpers;
 
 namespace IntISsoftTestQAFramework
 {
-    internal class SecondUserIntPl : UsersIntPl
+    public class SecondUserIntPl : UsersIntPl
     {
         string _firstName { get; }
         string _lastName { get; }
@@ -87,6 +81,7 @@ namespace IntISsoftTestQAFramework
         {
             FirstUserIntPl first = new FirstUserIntPl(driver, wait);
             Actions actions = new Actions(driver);
+            IntPlMailPage mailPage = new IntPlMailPage(driver);
 
             wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(BUTTON_NEW_MESSEGE)));
             Thread.Sleep(1000);
@@ -96,7 +91,7 @@ namespace IntISsoftTestQAFramework
 
             driver.FindElement(By.XPath(TO_PLACEHOLDER)).SendKeys(first.GetMailAdress());
 
-            var elemButtonSendMessege = driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE));
+            var elemButtonSendMessege = driver.FindElement(By.XPath(mailPage.GetButtonSendMessege()));
             var elemLetterArea = driver.FindElement(By.XPath(LETTER_AREA));
 
             actions.MoveToElement(elemLetterArea)
