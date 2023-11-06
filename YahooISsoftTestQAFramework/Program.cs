@@ -3,12 +3,10 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
-
 namespace IntISsoftTestQAFramework
 {
     public class Program
-    {
-     
+    {    
         static void Main(string[] args)
         {           
             IWebDriver driver = new ChromeDriver();
@@ -17,18 +15,9 @@ namespace IntISsoftTestQAFramework
             SecondUserIntPl second = new SecondUserIntPl(driver, wait);
             Actions actions = new Actions(driver);
 
-            //second.Login();
-           // first.Login();
-            //first.CreateLetter();
-            //first.Logout();
-            //Thread.Sleep(5000);
-            second.Login();
-            second.CreateLetter();
-            Thread.Sleep(5000);
+           
      
-            driver.Close();
-            
+            driver.Close();            
         }
     }
-
 }

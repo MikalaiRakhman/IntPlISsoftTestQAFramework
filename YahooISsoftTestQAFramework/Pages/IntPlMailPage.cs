@@ -13,17 +13,15 @@ namespace IntISsoftTestQAFramework
         const string THEME_PLACEHOLDER = "//*[@id='subject']";
         const string TO_WHOM_PLACEHOLDER = "//input[@aria-label='Do']";
         const string REPLY_BUTTON = "//span[@class='icon icon-reply'][1]";
-        
+        static string MAIL_PAGE = "https://poczta.int.pl/";
         public IntPlMailPage(IWebDriver webDriver) : base(webDriver, MAIL_PAGE)
         {
             
         }
-
         public string GetMailAvatarButton()
         {
             return MAIL_AVATAR_BUTTON;
         }
-
         public string GetMailLogoutButton()
         {
             return MAIL_LOGOUT_BUTTON;
@@ -51,7 +49,6 @@ namespace IntISsoftTestQAFramework
         public string GetReplyButton() 
         {
             return REPLY_BUTTON;
-        }
-        
+        }        
     }
 }

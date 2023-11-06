@@ -3,7 +3,6 @@ using OpenQA.Selenium.Chrome;
 using IntISsoftTestQAFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Threading.Channels;
 using IntISsoftTestQAFramework.Pages;
 
 namespace IntPlTest

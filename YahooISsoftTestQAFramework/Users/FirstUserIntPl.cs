@@ -9,22 +9,18 @@ namespace IntISsoftTestQAFramework
 {
     public class FirstUserIntPl : UsersIntPl
     {
-        string _firstName {  get;  }
-        string _lastName {  get; }
-        string _mailAdress {  get; }
-        string _password { get; }
-        string _phoneNumber { get; }
-
+        string _firstName;
+        string _lastName;
+        string _mailAdress;
+        string _password;
+        string _phoneNumber;
         string _themeFirstUser;
         string _letterFromFirstUser;
         string _lastLetterFromSecondUser;
         string _letterThemeFromSecondUser;
         string answerFromSecondUserXPath = "//span[text()='Re: LETTER FROM FIRST USER']";
-
-
         public FirstUserIntPl(IWebDriver driver, WebDriverWait wait) : base(driver, wait)
         {
-
             _firstName = "Vasia";
             _lastName = "Pupkin";
             _mailAdress = "vasiapupkin359@int.pl";
@@ -35,37 +31,26 @@ namespace IntISsoftTestQAFramework
             _lastLetterFromSecondUser = "//span[@title='pavelmorozov302@int.pl'][1]";
             _letterThemeFromSecondUser = "//span[text()='LETTER FROM SECOND USER']";
         }
-
         public override string GetFirstName() 
         {
             return _firstName;
         }
-
         public override string GetLastName() 
         {
             return _lastName;
         }
-
         public override string GetMailAdress() 
         {
             return _mailAdress; 
         }
-
         public override string GetPassword() 
         {
             return _password;
         }
-
         public override string GetPhoneNumber() 
         {
             return _phoneNumber; 
         }
-
-        public void LoginInAccount()
-        {
-           
-        }
-
         public override void Login()
         {
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
@@ -86,7 +71,6 @@ namespace IntISsoftTestQAFramework
                 .Build()
                 .Perform();
         }
-
         public override void Logout()
         {
             IntPlMailPage mailPage = new IntPlMailPage(driver);
@@ -94,7 +78,6 @@ namespace IntISsoftTestQAFramework
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetMailLogoutButton())));
             driver.FindElement(By.XPath(mailPage.GetMailLogoutButton())).Click();
         }
-
         public override void CreateLetter()
         {
             SecondUserIntPl second = new SecondUserIntPl(driver, wait);
@@ -122,9 +105,7 @@ namespace IntISsoftTestQAFramework
                     .Click()
                     .Build()
                     .Perform();
-
         }
-
         public override bool CheckLetter()
         {
             var elemlastLetterFromSecondUser = driver.FindElement(By.XPath(_lastLetterFromSecondUser));
@@ -133,7 +114,6 @@ namespace IntISsoftTestQAFramework
             bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
             return isLetterFromFromSecondUser && isThemeCorrect;
         }
-
         public override void ReplyLetter()
         {
             IntPlMailPage malePage = new IntPlMailPage(driver);
@@ -151,10 +131,8 @@ namespace IntISsoftTestQAFramework
                     .Build()
                     .Perform();
         }
-
         public override bool CheckReplyLetter()
         {
-
             var elemlastLetterFromFirstUser = driver.FindElement(By.XPath(_lastLetterFromSecondUser));
             bool isLetterFromFromFirstUser = elemlastLetterFromFirstUser.Displayed;
             var elemletterWhisWriteTheme = driver.FindElement(By.XPath(answerFromSecondUserXPath));
