@@ -1,4 +1,4 @@
-# YahooISsoftTestQAFramework
+# IntPlISsoftTestQAFramework
 
 Task 8
 
