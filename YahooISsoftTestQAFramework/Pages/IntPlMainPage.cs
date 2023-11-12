@@ -1,4 +1,7 @@
 ﻿using OpenQA.Selenium;
+using IntISsoftTestQAFramework.Users;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace IntISsoftTestQAFramework.Pages
 {
@@ -8,22 +11,27 @@ namespace IntISsoftTestQAFramework.Pages
         const string MAIN_LOGIN_BUTTON = "//button[@class='button button--left button--smaller button--mark button--moema']";
         const string MAIN_INPUT_PASSWORD_PLACEHOLDER = "//*[@id='passwordId']";
         static string MAIN_PAGE = "https://int.pl/";
-        public IntPlMainPage(IWebDriver webDriver) : base(webDriver , MAIN_PAGE) 
+        IWebDriver _driver;     
+        public IntPlMainPage(IWebDriver driver, string url) : base (driver, MAIN_PAGE)  
         {
-            
+            _driver = driver;
         }
-        public string GetInputMailPLaceHolder()
+        public void login (User user) 
         {
-            return MAIN_INPUT_MAIL_PLACEHOLDER;
-        }
-        public string GetLoginButton()
-        {
-            return MAIN_LOGIN_BUTTON;
-        }
-        public string GetInputPasswordPLaceHolder()
-        {
-            return MAIN_INPUT_PASSWORD_PLACEHOLDER;
-        }
-
+            Actions actions = new Actions(_driver);
+            var mailPlaceHolder = _driver.FindElement(By.XPath(MAIN_INPUT_MAIL_PLACEHOLDER));
+            var passwordPlaceHolder = _driver.FindElement(By.XPath(MAIN_INPUT_PASSWORD_PLACEHOLDER));
+            var loginButton = _driver.FindElement(By.XPath(MAIN_LOGIN_BUTTON));
+            actions.MoveToElement(mailPlaceHolder)
+            .Click()
+                .SendKeys(user.MailAdress)
+                .MoveToElement(passwordPlaceHolder)
+            .Click()
+                .SendKeys(user.Password)
+                .MoveToElement(loginButton)
+                .Click()
+                .Build()
+                .Perform();
+        }        
     }
 }
