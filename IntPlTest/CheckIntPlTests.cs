@@ -1,9 +1,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using IntISsoftTestQAFramework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using IntISsoftTestQAFramework.Pages;
+using IntISsoftTestQAFramework.Users;
 
 namespace IntPlTest
 {
@@ -11,41 +11,49 @@ namespace IntPlTest
     public class IntPlTests
     {
         IWebDriver driver;
+        User first = new User("Vasia", "Pupkin", "vasiapupkin359@int.pl", "779TjRse+nHLw$v", "from first user", "hello second user!", "reply for your messege 'second'");
+        User second = new User("Pavel", "Morozov", "pavelmorozov302@int.pl", "x%Y%c78@/n!T.bx", "from second user", "hello first user!", "reply for your messege 'first'");
 
         [TestInitialize] 
         public void Init() 
         {
             driver = new ChromeDriver();
-
         }
-
         [TestMethod]
-        public void IntPlTestLogin()
+        public void TestLoginFirstUser()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
-            IntPlMailPage mailPage = new IntPlMailPage(driver);
-            first.Login();
-            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetMailAvatarButton())));
-            bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetMailAvatarButton())).Enabled;
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));            
+            MainPage mainPage = new MainPage(driver);
+            MailPage mailPage = new MailPage(driver);
+            mainPage.login(first);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetAvatarButton())));
+            bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetAvatarButton())).Enabled;
             Assert.IsTrue(isAvatarButttonAvailible);
-
+        }
+        public void TestLoginSecondUser()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            MainPage mainPage = new MainPage(driver);
+            MailPage mailPage = new MailPage(driver);
+            mainPage.login(second);
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetAvatarButton())));
+            bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetAvatarButton())).Enabled;
+            Assert.IsTrue(isAvatarButttonAvailible);
         }
 
         [TestMethod]
-        public void IntPlTestLogout() 
+        public void IntPlTestLogoutFirstUser() 
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
-            IntPlMainPage mainPage = new IntPlMainPage(driver);
-            first.Login();
-            first.Logout();
+            MainPage mainPage = new MainPage(driver);
+            MailPage mailPage = new MailPage(driver);
+            mainPage.login(first);
+            mailPage.Logout();
             bool isLoginButtonAvailible = driver.FindElement(By.XPath(mainPage.GetLoginButton())).Enabled;
             bool isInputMailAvailible = driver.FindElement(By.XPath(mainPage.GetInputMailPLaceHolder())).Enabled;
             bool isInputPasswordAvailible = driver.FindElement(By.XPath(mainPage.GetInputPasswordPLaceHolder())).Enabled;
             Assert.IsTrue(isInputPasswordAvailible && isInputMailAvailible && isLoginButtonAvailible);
         }
-
         [TestMethod]
 /*
 	1. Выполните логин в почтовый сервис с использованием пароля и имени для первого пользователя.
@@ -60,25 +68,25 @@ namespace IntPlTest
         public void IntPlSendMessegeAndReplyMessegeTest1()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
-            SecondUserIntPl second = new SecondUserIntPl(driver, wait);
-            first.Login();
+            MailPage mailPage = new MailPage(driver);
+            MainPage mainPage = new MainPage(driver);
+            mainPage.login(first);
             Thread.Sleep(5000);
-            first.CreateLetter();
+            mailPage.CreateLetterAndSend(first);
             Thread.Sleep(5000);
-            first.Logout();
+            mailPage.Logout();
             Thread.Sleep(5000);
-            second.Login();
+            mainPage.login(second);
             Thread.Sleep(5000);
-            bool firstLetterArrivedAndCorrect = second.CheckLetter();
-            second.ReplyLetter();
+            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first);
+            mailPage.ReplyLetter(second);
             Thread.Sleep(5000);
-            second.Logout();
+            mailPage.Logout();
             Thread.Sleep(5000);
-            first.Login();
+            mainPage.login(first);
             Thread.Sleep(5000);
-            bool replyLetterArrivedAndCorrect = first.CheckReplyLetter();
-            first.Logout();
+            bool replyLetterArrivedAndCorrect = mailPage.CheckReplyLetterFrom(second);
+            mailPage.Logout();
 
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }
@@ -88,25 +96,25 @@ namespace IntPlTest
         public void IntPlSendMessegeAndReplyMessegeTest2()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            FirstUserIntPl first = new FirstUserIntPl(driver, wait);
-            SecondUserIntPl second = new SecondUserIntPl(driver, wait);
-            second.Login();
+            MailPage mailPage = new MailPage(driver);
+            MainPage mainPage = new MainPage(driver);
+            mainPage.login(second);
             Thread.Sleep(5000);
-            second.CreateLetter();
+            mailPage.CreateLetterAndSend(second);
             Thread.Sleep(5000);
-            second.Logout();
+            mailPage.Logout();
             Thread.Sleep(5000);
-            first.Login();
+            mainPage.login(first);
             Thread.Sleep(5000);
-            bool firstLetterArrivedAndCorrect = first.CheckLetter();
-            first.ReplyLetter();
+            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second);
+            mailPage.ReplyLetter(first);
             Thread.Sleep(5000);
-            first.Logout();
+            mailPage.Logout();
             Thread.Sleep(5000);
-            second.Login();
+            mainPage.login(second);
             Thread.Sleep(5000);
-            bool replyLetterArrivedAndCorrect = second.CheckReplyLetter();
-            second.Logout();
+            bool replyLetterArrivedAndCorrect = mailPage.CheckReplyLetterFrom(first);
+            mailPage.Logout();
 
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }

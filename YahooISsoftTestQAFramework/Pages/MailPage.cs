@@ -1,15 +1,14 @@
 ﻿using OpenQA.Selenium;
-using IntISsoftTestQAFramework.Pages;
 using OpenQA.Selenium.Support.UI;
 using IntISsoftTestQAFramework.Users;
 using OpenQA.Selenium.Interactions;
 using SeleniumExtras.WaitHelpers;
 
-namespace IntISsoftTestQAFramework
+namespace IntISsoftTestQAFramework.Pages
 {
-    public class IntPlMailPage : IntPlBasePage
+    public class MailPage : BasePage
     {
-        const string MAIL_AVATAR_BUTTON = "//div[@class='avatar avatar--large']";
+        const string AVATAR_BUTTON = "//div[@class='avatar avatar--large']";
         const string MAIL_LOGOUT_BUTTON = "//a[@class='account-info__logout button']";
         const string BUTTON_SEND_MESSEGE = "//button[@class='button']";
         const string LETTER_AREA = "/html";
@@ -21,17 +20,17 @@ namespace IntISsoftTestQAFramework
 
         IWebDriver _driver;
         WebDriverWait _wait;
-        public IntPlMailPage(IWebDriver driver, string url) : base(driver, MAIL_PAGE)
+        public MailPage(IWebDriver driver) : base(driver, MAIL_PAGE)
         {
             _driver = driver;
         }
         public void Logout() 
         {
-            _driver.FindElement(By.XPath(MAIL_AVATAR_BUTTON)).Click();
+            _driver.FindElement(By.XPath(AVATAR_BUTTON)).Click();
             _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(MAIL_LOGOUT_BUTTON)));
             _driver.FindElement(By.XPath(MAIL_LOGOUT_BUTTON)).Click();
         }
-        public void CreateLetter(User user) 
+        public void CreateLetterAndSend(User user) 
         {
             Actions actions = new Actions(_driver);
             _wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(BUTTON_NEW_MESSEGE)));
@@ -60,7 +59,7 @@ namespace IntISsoftTestQAFramework
         /// </summary>
         /// <param name="user">The user from whom we receive the letter.</param>
         /// <returns></returns>
-        public bool CheckLetter(User user)
+        public bool CheckLetterFrom(User user)
         {
             string letterFromUserXPath = $"//span[@title='{user.MailAdress}'][1]";
             var elemlastLetterFromSecondUser = _driver.FindElement(By.XPath(letterFromUserXPath));
@@ -72,7 +71,7 @@ namespace IntISsoftTestQAFramework
         /// <summary>
         /// The user replies to the letter and sends a message.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">The user who is currently replying to the email.</param>
         public void ReplyLetter(User user)
         {            
             Actions actions = new Actions(_driver);
@@ -94,7 +93,7 @@ namespace IntISsoftTestQAFramework
         /// </summary>
         /// <param name="user">The user from whom we receive the letter.</param>
         /// <returns></returns>
-        public bool CheckReplyLetter(User user)
+        public bool CheckReplyLetterFrom(User user)
         {
             string letterFromUserXPath = $"//span[@title='{user.MailAdress}'][1]";
             var elemlastLetterFromFirstUser = _driver.FindElement(By.XPath(letterFromUserXPath));
@@ -102,6 +101,10 @@ namespace IntISsoftTestQAFramework
             var elemletterWhisWriteTheme = _driver.FindElement(By.XPath(user.ThemeTextReplyLetter));
             bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
             return isLetterFromFromFirstUser && isThemeCorrect;
+        }
+        public string GetAvatarButton()
+        {
+            return AVATAR_BUTTON;
         }
     }
 }
