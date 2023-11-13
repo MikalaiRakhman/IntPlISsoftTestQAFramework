@@ -16,11 +16,12 @@ namespace IntISsoftTestQAFramework.Pages
         const string THEME_PLACEHOLDER = "//*[@id='subject']";
         const string TO_WHOM_PLACEHOLDER = "//input[@aria-label='Do']";
         const string REPLY_BUTTON = "//span[@class='icon icon-reply'][1]";
+        // $$("[data-tooltip='Odpowiedz']")
         const string IFRAME = "//iframe[1]";
-        static string MAIL_PAGE = "https://poczta.int.pl/";
+        const string MAIL_PAGE = "https://poczta.int.pl/";
 
-        protected IWebDriver _driver;
-        protected WebDriverWait _wait;
+        IWebDriver _driver;
+        WebDriverWait _wait;
         public MailPage(IWebDriver driver) : base(driver, MAIL_PAGE)
         {
             _driver = driver;
@@ -35,7 +36,7 @@ namespace IntISsoftTestQAFramework.Pages
         public void CreateLetterAndSend(User fromUser, User toUser) 
         {
             Actions actions = new Actions(_driver);
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             var elemButtonNewMessege = _driver.FindElement(By.XPath(BUTTON_NEW_MESSEGE));
             actions.MoveToElement(elemButtonNewMessege)
                 .Click()
@@ -68,26 +69,33 @@ namespace IntISsoftTestQAFramework.Pages
         public bool CheckLetterFrom(User user)
         {
             string letterFromUserXPath = $"//span[@title='{user.MailAdress}'][1]";
+            var elemlastLetterFromFirstUser = _driver.FindElement(By.XPath(letterFromUserXPath));
+            bool isLetterFromFromFirstUser = elemlastLetterFromFirstUser.Displayed;
+            bool isContainsText = FindTheTextInTheFrame(user.TextLetter, IFRAME);
+            return isLetterFromFromFirstUser && isContainsText;
+            /*
+            string letterFromUserXPath = $"//span[@title='{user.MailAdress}'][1]";
             var elemlastLetterFromSecondUser = _driver.FindElement(By.XPath(letterFromUserXPath));
             bool isLetterFromFromSecondUser = elemlastLetterFromSecondUser.Displayed;
             var elemletterWhisWriteTheme = _driver.FindElement(By.XPath(letterFromUserXPath));
             bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
             return isLetterFromFromSecondUser && isThemeCorrect;
+            */
         }
         /// <summary>
         /// The user replies to the letter and sends a message.
         /// </summary>
         /// <param name="user">The user who is currently replying to the email.</param>
-        public void ReplyLetter(User user)
-        {            
+        public void ReplyLetterFrom(User user)
+        {
             Actions actions = new Actions(_driver);
             Thread.Sleep(1000);
-            _driver.FindElement(By.XPath(REPLY_BUTTON)).Click();
+            var elemButtonReply = _driver.FindElement(By.CssSelector(".icon-reply"));
             var elemLetterArea = _driver.FindElement(By.XPath(LETTER_AREA));
-            var elemButtonSendMessege = _driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE)); 
-            actions .MoveToElement(elemLetterArea)
+            var elemButtonSendMessege = _driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE));
+            actions.MoveToElement(elemButtonReply)
                     .Click()
-                    .DoubleClick()
+                    .Pause(TimeSpan.FromSeconds(1))
                     .SendKeys(user.TextReplyLetter)
                     .MoveToElement(elemButtonSendMessege)
                     .Click()
@@ -110,6 +118,11 @@ namespace IntISsoftTestQAFramework.Pages
         public string GetAvatarButton()
         {
             return AVATAR_BUTTON;
+        }
+        public bool FindTheTextInTheFrame(string text, string xPath)
+        {
+            var frame = _driver.SwitchTo().Frame(_driver.FindElement(By.XPath(xPath)));
+            return frame.PageSource.ToString().Contains(text);
         }
     }
 }

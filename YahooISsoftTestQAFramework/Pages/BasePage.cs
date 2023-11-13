@@ -10,12 +10,5 @@ namespace IntISsoftTestQAFramework.Pages
             _driver.Url = url;
             _driver.Manage().Window.Maximize();            
         }
-
-        public bool FindTheTextInTheFrame(string text, string xPath) 
-        {
-            var frame = _driver.SwitchTo().Frame(_driver.FindElement(By.XPath(xPath)));
-            return frame.PageSource.ToString().Contains(text);
-        }
-
     }
 }

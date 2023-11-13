@@ -11,8 +11,8 @@ namespace IntPlTest
     public class IntPlTests
     {
         IWebDriver driver;
-        User first = new User("Vasia", "Pupkin", "vasiapupkin359@int.pl", "779TjRse+nHLw$v", "from first user", "hello second user!", "reply for your messege 'second'");
-        User second = new User("Pavel", "Morozov", "pavelmorozov302@int.pl", "x%Y%c78@/n!T.bx", "from second user", "hello first user!", "reply for your messege 'first'");
+        User first = new User("vasiapupkin359@int.pl", "779TjRse+nHLw$v", "from first user", "hello second user!", "reply for your messege 'second'");
+        User second = new User("pavelmorozov302@int.pl", "x%Y%c78@/n!T.bx", "from second user", "hello first user!", "reply for your messege 'first'");
 
         [TestInitialize] 
         public void Init() 
@@ -79,7 +79,7 @@ namespace IntPlTest
             mainPage.login(second);
             Thread.Sleep(5000);
             bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first);
-            mailPage.ReplyLetter(second);
+            mailPage.ReplyLetterFrom(second);
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(5000);
@@ -107,7 +107,7 @@ namespace IntPlTest
             mainPage.login(first);
             Thread.Sleep(5000);
             bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second);
-            mailPage.ReplyLetter(first);
+            mailPage.ReplyLetterFrom(first);
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(5000);
@@ -115,7 +115,6 @@ namespace IntPlTest
             Thread.Sleep(5000);
             bool replyLetterArrivedAndCorrect = mailPage.CheckReplyLetterFrom(first);
             mailPage.Logout();
-
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }
 
