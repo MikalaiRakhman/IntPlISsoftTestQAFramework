@@ -72,7 +72,7 @@ namespace IntPlTest
             MainPage mainPage = new MainPage(driver);
             mainPage.login(first);
             Thread.Sleep(5000);
-            mailPage.CreateLetterAndSend(first);
+            mailPage.CreateLetterAndSend(first, second);
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(5000);
@@ -100,7 +100,7 @@ namespace IntPlTest
             MainPage mainPage = new MainPage(driver);
             mainPage.login(second);
             Thread.Sleep(5000);
-            mailPage.CreateLetterAndSend(second);
+            mailPage.CreateLetterAndSend(second, first);
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(5000);

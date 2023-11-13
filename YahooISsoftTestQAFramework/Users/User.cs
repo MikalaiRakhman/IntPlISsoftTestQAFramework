@@ -1,22 +1,19 @@
 ﻿namespace IntISsoftTestQAFramework.Users
 {
     public class User
-    {
-        public string FirstName {  get; }
-        public string LastName { get; }        
+    {   
         public string MailAdress { get; }
         public string Password { get; }
         public string ThemeLetter { get; }
         public string TextLetter { get; }
-        public string ThemeTextReplyLetter { get; }
-        public User(string firstName, string lastName, string mailAdres, string password, string themeLetter, string textLetter, string themeTextReplyLetter)
+        public string TextReplyLetter { get; }
+        public User( string mailAdres, string password, string themeLetter, string textLetter, string textReplyLetter)
         {
-            FirstName = firstName;
-            LastName = lastName;
             MailAdress = mailAdres;
             Password = password;
-            ThemeLetter = themeLetter;
-            ThemeTextReplyLetter = themeTextReplyLetter;
+            ThemeLetter = themeLetter;            
+            TextLetter = textLetter;
+            TextReplyLetter = textReplyLetter;
         }
     }
 }
