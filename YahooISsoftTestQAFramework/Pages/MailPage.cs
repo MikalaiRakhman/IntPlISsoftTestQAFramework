@@ -16,7 +16,6 @@ namespace IntISsoftTestQAFramework.Pages
         const string THEME_PLACEHOLDER = "//*[@id='subject']";
         const string TO_WHOM_PLACEHOLDER = "//input[@aria-label='Do']";
         const string REPLY_BUTTON = "//span[@class='icon icon-reply'][1]";
-        // $$("[data-tooltip='Odpowiedz']")
         const string IFRAME = "//iframe[1]";
         const string MAIL_PAGE = "https://poczta.int.pl/";
 
@@ -73,14 +72,6 @@ namespace IntISsoftTestQAFramework.Pages
             bool isLetterFromFromFirstUser = elemlastLetterFromFirstUser.Displayed;
             bool isContainsText = FindTheTextInTheFrame(user.TextLetter, IFRAME);
             return isLetterFromFromFirstUser && isContainsText;
-            /*
-            string letterFromUserXPath = $"//span[@title='{user.MailAdress}'][1]";
-            var elemlastLetterFromSecondUser = _driver.FindElement(By.XPath(letterFromUserXPath));
-            bool isLetterFromFromSecondUser = elemlastLetterFromSecondUser.Displayed;
-            var elemletterWhisWriteTheme = _driver.FindElement(By.XPath(letterFromUserXPath));
-            bool isThemeCorrect = elemletterWhisWriteTheme.Displayed;
-            return isLetterFromFromSecondUser && isThemeCorrect;
-            */
         }
         /// <summary>
         /// The user replies to the letter and sends a message.
@@ -88,19 +79,21 @@ namespace IntISsoftTestQAFramework.Pages
         /// <param name="user">The user who is currently replying to the email.</param>
         public void ReplyLetterFrom(User user)
         {
-            Actions actions = new Actions(_driver);
-            Thread.Sleep(1000);
-            var elemButtonReply = _driver.FindElement(By.CssSelector(".icon-reply"));
-            var elemLetterArea = _driver.FindElement(By.XPath(LETTER_AREA));
+            _driver.Navigate().Refresh();
+            Thread.Sleep(2000);
+            _driver.FindElement(By.XPath(REPLY_BUTTON)).Click();            
             var elemButtonSendMessege = _driver.FindElement(By.XPath(BUTTON_SEND_MESSEGE));
-            actions.MoveToElement(elemButtonReply)
-                    .Click()
-                    .Pause(TimeSpan.FromSeconds(1))
-                    .SendKeys(user.TextReplyLetter)
-                    .MoveToElement(elemButtonSendMessege)
-                    .Click()
-                    .Build()
-                    .Perform();
+            var elemLetterArea = _driver.FindElement(By.XPath(LETTER_AREA));
+            Actions actions = new Actions(_driver);
+            actions.MoveToElement(elemLetterArea)
+                   .Click()
+                   .Pause(TimeSpan.FromSeconds(1))
+                   .SendKeys(user.TextReplyLetter)
+                   .Pause(TimeSpan.FromSeconds(1))
+                   .MoveToElement(elemButtonSendMessege)
+                   .Click()
+                   .Build()
+                   .Perform();
         }
         /// <summary>
         /// The method returns 'true' if it finds a letter from the user and the subject text of the letter is correct.
