@@ -4,7 +4,6 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using IntISsoftTestQAFramework.Pages;
 using IntISsoftTestQAFramework.Users;
-
 namespace IntPlTest
 {
     [TestClass]
@@ -13,7 +12,6 @@ namespace IntPlTest
         IWebDriver driver;
         User first = new User("vasiapupkin359@int.pl", "779TjRse+nHLw$v", "from first user", "hello second user!", "reply for your messege 'second'");
         User second = new User("pavelmorozov302@int.pl", "x%Y%c78@/n!T.bx", "from second user", "hello first user!", "reply for your messege 'first'");
-
         [TestInitialize] 
         public void Init() 
         {
@@ -40,7 +38,6 @@ namespace IntPlTest
             bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetAvatarButton())).Enabled;
             Assert.IsTrue(isAvatarButttonAvailible);
         }
-
         [TestMethod]
         public void IntPlTestLogoutFirstUser() 
         {
@@ -55,43 +52,34 @@ namespace IntPlTest
             Assert.IsTrue(isInputPasswordAvailible && isInputMailAvailible && isLoginButtonAvailible);
         }
         [TestMethod]
-/*
-	1. Выполните логин в почтовый сервис с использованием пароля и имени для первого пользователя.
-	2. Создать письмо с произвольным телом и заголовком
-	3. Отправить письмо на адрес второго зарегистрированного пользователя
-	4. Выполнить выход из учетной записи первого пользователя
-	5. Выполнить логин в почтовый сервис с использованием пароля и имени для второго пользователя.
-	6. Выполнить логин в почтовый сервис с использованием пароля и имени для второго пользователя.
-	7. Проверить что письмо с заданным на шаге 2 телом и заголовком получено. Если письмо еще не получено- выполнить ожидание, не более 10 минут.
-	8. Ответить на письмо путем нажатия на кнопку Reply. Текст ответа произвольный
-	9. Выполнить выход с учетной записи второго пользователя, выполнить вход с учетной записью первого пользователя и проверить что получен ответ с заданным текстом.*/
         public void IntPlSendMessegeAndReplyMessegeTest1()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             MailPage mailPage = new MailPage(driver);
             MainPage mainPage = new MainPage(driver);
             mainPage.login(first);
-            Thread.Sleep(5000);
-            mailPage.CreateLetterAndSend(first, second);
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
+            mailPage.NewMessege();
+            mailPage.CreateLetter(first, second, first.TextLetter);
+            mailPage.SendLetter();
+            Thread.Sleep(2000);
             mailPage.Logout();
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             mainPage.login(second);
-            Thread.Sleep(5000);
-            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first);
-            mailPage.ReplyLetterFrom(second);
+            Thread.Sleep(2000);
+            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first, first.TextLetter);
+            mailPage.OpenReplyLetter();
+            mailPage.CreateLetter(second, first, second.TextReplyLetter);
+            mailPage.SendLetter();
             Thread.Sleep(5000);
             mailPage.Logout();
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             mainPage.login(first);
             Thread.Sleep(5000);
-            bool replyLetterArrivedAndCorrect = mailPage.CheckReplyLetterFrom(second);
+            var replyLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second, second.TextReplyLetter);
             mailPage.Logout();
-
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }
-
-
         [TestMethod]
         public void IntPlSendMessegeAndReplyMessegeTest2()
         {
@@ -99,33 +87,32 @@ namespace IntPlTest
             MailPage mailPage = new MailPage(driver);
             MainPage mainPage = new MainPage(driver);
             mainPage.login(second);
-            Thread.Sleep(5000);
-            mailPage.CreateLetterAndSend(second, first);
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
+            mailPage.NewMessege();
+            mailPage.CreateLetter(second, first, second.TextLetter);
+            mailPage.SendLetter();
+            Thread.Sleep(2000);
             mailPage.Logout();
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             mainPage.login(first);
-            Thread.Sleep(5000);
-            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second);
-            mailPage.ReplyLetterFrom(first);
+            Thread.Sleep(2000);
+            bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second, second.TextLetter);
+            mailPage.OpenReplyLetter();
+            mailPage.CreateLetter(first, second, first.TextReplyLetter);
+            mailPage.SendLetter();
             Thread.Sleep(5000);
             mailPage.Logout();
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             mainPage.login(second);
             Thread.Sleep(5000);
-            bool replyLetterArrivedAndCorrect = mailPage.CheckReplyLetterFrom(first);
+            var replyLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first, first.TextReplyLetter);
             mailPage.Logout();
             Assert.IsTrue(firstLetterArrivedAndCorrect && replyLetterArrivedAndCorrect);
         }
-
-
-
         [TestCleanup]
         public void Cleanup()
         {
             driver.Dispose();
-        }
-
-        
+        }        
     }
 }

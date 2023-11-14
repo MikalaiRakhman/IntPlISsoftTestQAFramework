@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-
 namespace IntISsoftTestQAFramework.Pages
 {
     public abstract class BasePage
@@ -11,6 +9,10 @@ namespace IntISsoftTestQAFramework.Pages
             _driver = driver;
             _driver.Url = url;
             _driver.Manage().Window.Maximize();            
+        }
+        public void RefreshPage() 
+        {
+            _driver.Navigate().Refresh();
         }
     }
 }
