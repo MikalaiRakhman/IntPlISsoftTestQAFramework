@@ -23,7 +23,7 @@ namespace IntPlTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));            
             MainPage mainPage = new MainPage(driver);
             MailPage mailPage = new MailPage(driver);
-            mainPage.login(first);
+            mainPage.Login(first);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetAvatarButton())));
             bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetAvatarButton())).Enabled;
             Assert.IsTrue(isAvatarButttonAvailible);
@@ -33,7 +33,7 @@ namespace IntPlTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             MainPage mainPage = new MainPage(driver);
             MailPage mailPage = new MailPage(driver);
-            mainPage.login(second);
+            mainPage.Login(second);
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(mailPage.GetAvatarButton())));
             bool isAvatarButttonAvailible = driver.FindElement(By.XPath(mailPage.GetAvatarButton())).Enabled;
             Assert.IsTrue(isAvatarButttonAvailible);
@@ -44,7 +44,7 @@ namespace IntPlTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             MainPage mainPage = new MainPage(driver);
             MailPage mailPage = new MailPage(driver);
-            mainPage.login(first);
+            mainPage.Login(first);
             mailPage.Logout();
             bool isLoginButtonAvailible = driver.FindElement(By.XPath(mainPage.GetLoginButton())).Enabled;
             bool isInputMailAvailible = driver.FindElement(By.XPath(mainPage.GetInputMailPLaceHolder())).Enabled;
@@ -57,7 +57,7 @@ namespace IntPlTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             MailPage mailPage = new MailPage(driver);
             MainPage mainPage = new MainPage(driver);
-            mainPage.login(first);
+            mainPage.Login(first);
             Thread.Sleep(2000);
             mailPage.NewMessege();
             mailPage.CreateLetter(first, second, first.TextLetter);
@@ -65,7 +65,7 @@ namespace IntPlTest
             Thread.Sleep(2000);
             mailPage.Logout();
             Thread.Sleep(1000);
-            mainPage.login(second);
+            mainPage.Login(second);
             Thread.Sleep(2000);
             bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first, first.TextLetter);
             mailPage.OpenReplyLetter();
@@ -74,7 +74,7 @@ namespace IntPlTest
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(1000);
-            mainPage.login(first);
+            mainPage.Login(first);
             Thread.Sleep(5000);
             var replyLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second, second.TextReplyLetter);
             mailPage.Logout();
@@ -86,7 +86,7 @@ namespace IntPlTest
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
             MailPage mailPage = new MailPage(driver);
             MainPage mainPage = new MainPage(driver);
-            mainPage.login(second);
+            mainPage.Login(second);
             Thread.Sleep(2000);
             mailPage.NewMessege();
             mailPage.CreateLetter(second, first, second.TextLetter);
@@ -94,7 +94,7 @@ namespace IntPlTest
             Thread.Sleep(2000);
             mailPage.Logout();
             Thread.Sleep(1000);
-            mainPage.login(first);
+            mainPage.Login(first);
             Thread.Sleep(2000);
             bool firstLetterArrivedAndCorrect = mailPage.CheckLetterFrom(second, second.TextLetter);
             mailPage.OpenReplyLetter();
@@ -103,7 +103,7 @@ namespace IntPlTest
             Thread.Sleep(5000);
             mailPage.Logout();
             Thread.Sleep(1000);
-            mainPage.login(second);
+            mainPage.Login(second);
             Thread.Sleep(5000);
             var replyLetterArrivedAndCorrect = mailPage.CheckLetterFrom(first, first.TextReplyLetter);
             mailPage.Logout();

@@ -15,7 +15,7 @@ namespace IntISsoftTestQAFramework.Pages
         {
             _driver = driver;
         }
-        public void login(User user)
+        public void Login(User user)
         {
             try
             {
