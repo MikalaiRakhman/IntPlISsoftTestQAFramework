@@ -2,6 +2,7 @@
 using IntISsoftTestQAFramework.Users;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.DevTools.V112.Network;
 
 namespace IntISsoftTestQAFramework.Pages
 {
@@ -11,13 +12,17 @@ namespace IntISsoftTestQAFramework.Pages
         const string LOGIN_BUTTON = "//button[@class='button button--left button--smaller button--mark button--moema']";
         const string INPUT_PASSWORD_PLACEHOLDER = "//*[@id='passwordId']";
         const string CLOSE_POPUP_CLASS_NAME = "popup__close-btn";
-        static string MAIN_PAGE = "https://int.pl/";   
+        const string MAIN_PAGE_TITLE = "int.pl";
+        static string MAIN_PAGE = "https://int.pl/";
+        const string WRONG_PASSWORD = "**********";
         public MainPage(IWebDriver driver, WebDriverWait wait, Actions actions) : base (driver, wait, actions, MAIN_PAGE)  
         {
             
         }
         public void Login(User user)
         {
+            RefreshPage();
+
             try
             {
                 ClosePopup();
@@ -27,29 +32,25 @@ namespace IntISsoftTestQAFramework.Pages
                 Console.WriteLine("Popup not found.");
             }
             finally
-            {                
+            {
                 RefreshPage();
-                /*
-                Actions actions = new Actions(_driver);
-                var mailPlaceHolder = _driver.FindElement(By.XPath(INPUT_MAIL_PLACEHOLDER));
-                var passwordPlaceHolder = _driver.FindElement(By.XPath(INPUT_PASSWORD_PLACEHOLDER));
-                var loginButton = _driver.FindElement(By.XPath(LOGIN_BUTTON));
-                actions.MoveToElement(mailPlaceHolder)
-                       .Click()
-                       .SendKeys(user.MailAdress)
-                       .MoveToElement(passwordPlaceHolder)
-                       .Click()
-                       .SendKeys(user.Password)
-                       .MoveToElement(loginButton)
-                       .Click()
-                       .Build()
-                       .Perform();
-                */
-                ClickOnElementByClassName(INPUT_MAIL_PLACEHOLDER);
-                SendKeys(user.MailAdress);
-                ClickOnElementByClassName(INPUT_PASSWORD_PLACEHOLDER);
+                Thread.Sleep(2000);
+                
+                if (!IsCheckTitleExist(MAIN_PAGE_TITLE))
+                {
+                    Thread.Sleep(1000);
+                    NavigateBack();
+                    Thread.Sleep(2000);
+                }
+                ClickOnElementByXPath(INPUT_MAIL_PLACEHOLDER);
+                SendKeys(user.MailAdress);                
+                ClickOnElementByXPath(INPUT_PASSWORD_PLACEHOLDER);
+                SendKeys(WRONG_PASSWORD);
+                ClickOnElementByXPath(LOGIN_BUTTON);
+                Thread.Sleep(1000);
+                ClickOnElementByXPath(INPUT_PASSWORD_PLACEHOLDER);
                 SendKeys(user.Password);
-                ClickOnElementByClassName(LOGIN_BUTTON);
+                ClickOnElementByXPath(LOGIN_BUTTON);                
             }
         }
         public string GetLoginButton()
@@ -66,7 +67,6 @@ namespace IntISsoftTestQAFramework.Pages
         }
         public void ClosePopup()
         {
-            //_driver.FindElement(By.ClassName(CLOSE_POPUP_CLASS_NAME)).Click();
             ClickOnElementByClassName(CLOSE_POPUP_CLASS_NAME);
         }
     }

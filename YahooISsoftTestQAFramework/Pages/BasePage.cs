@@ -23,29 +23,25 @@ namespace IntISsoftTestQAFramework.Pages
         {
             _driver.Navigate().Refresh();
         }
-
         public void FindElement(string elementXPath) 
         {           
             _driver.FindElement(By.XPath(elementXPath));
         }
-
         public void WaitUntilElementIsVisible(string elementXPath) 
         {
             _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(elementXPath)));
         }
         public void ClickOnElementByXPath(string elementXPath) 
-        {
-            WaitUntilElementIsVisible(elementXPath);
-            _driver.FindElement(By.XPath(elementXPath)).Click();
+        {           
+            _actions.MoveToElement(Element(elementXPath)).Click().Build().Perform();
         }
         public void ClickOnElementByClassName(string className)
         {
-            WaitUntilElementIsVisible(className);
             _driver.FindElement(By.XPath(className)).Click();
         }
         public void SendKeys(string textKey) 
         {
-            _actions.SendKeys(textKey);
+            _actions.SendKeys(textKey).Build().Perform();
         }
         public IWebElement Element(string elementXPath) 
         {
@@ -58,7 +54,24 @@ namespace IntISsoftTestQAFramework.Pages
         }
         public bool IsElementDisplayed(string xPath) 
         {
-           return _driver.FindElement(By.XPath(xPath)).Displayed;
-        }        
+            try
+            {
+                var elem = _driver.FindElement(By.XPath(xPath)).Displayed;
+            }
+            catch (NoSuchElementException ex)
+            {
+                Console.WriteLine("Element not found!");
+                Thread.Sleep(1000);
+            }            
+            return _driver.FindElement(By.XPath(xPath)).Displayed;
+        }
+        public void NavigateBack() 
+        {
+            _driver.Navigate().Back();
+        }
+        public bool IsCheckTitleExist(string textInTitle)
+        {
+            return _driver.Title.ToString().Contains(textInTitle);
+        }
     }
 }
