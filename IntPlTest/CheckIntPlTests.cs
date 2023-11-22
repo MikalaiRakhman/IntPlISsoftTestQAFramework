@@ -1,7 +1,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using IntISsoftTestQAFramework.Pages;
-using IntISsoftTestQAFramework.Users;
+using IntPlLibrary.PagesL;
+using IntPlLibrary;
 namespace IntPlTest
 {
     [TestClass]

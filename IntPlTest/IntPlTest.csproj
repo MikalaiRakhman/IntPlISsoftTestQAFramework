@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YahooISsoftTestQAFramework\IntISsoftTestQAFramework.csproj" />
+    <ProjectReference Include="..\IntPlLibrary\IntPlLibrary.csproj" />
   </ItemGroup>
 
 </Project>
