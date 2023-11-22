@@ -14,7 +14,7 @@ namespace IntPlTest
         User first;
         User second;
         [TestInitialize] 
-        public void Init() 
+        public void Init()    
         {
             driver = new ChromeDriver();
             mailPage = new MailPage(driver);
