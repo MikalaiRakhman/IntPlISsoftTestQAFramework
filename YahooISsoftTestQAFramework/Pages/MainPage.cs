@@ -1,9 +1,5 @@
 ﻿using OpenQA.Selenium;
 using IntISsoftTestQAFramework.Users;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.DevTools.V112.Network;
-
 namespace IntISsoftTestQAFramework.Pages
 {
     public class MainPage : BasePage
@@ -15,14 +11,13 @@ namespace IntISsoftTestQAFramework.Pages
         const string MAIN_PAGE_TITLE = "int.pl";
         static string MAIN_PAGE = "https://int.pl/";
         const string WRONG_PASSWORD = "**********";
-        public MainPage(IWebDriver driver, WebDriverWait wait, Actions actions) : base (driver, wait, actions, MAIN_PAGE)  
+        public MainPage(IWebDriver driver) : base (driver, MAIN_PAGE)  
         {
             
         }
         public void Login(User user)
         {
             RefreshPage();
-
             try
             {
                 ClosePopup();
@@ -34,8 +29,7 @@ namespace IntISsoftTestQAFramework.Pages
             finally
             {
                 RefreshPage();
-                Thread.Sleep(2000);
-                
+                Thread.Sleep(2000);                
                 if (!IsCheckTitleExist(MAIN_PAGE_TITLE))
                 {
                     Thread.Sleep(1000);
@@ -68,6 +62,18 @@ namespace IntISsoftTestQAFramework.Pages
         public void ClosePopup()
         {
             ClickOnElementByClassName(CLOSE_POPUP_CLASS_NAME);
+        }
+        public bool IsLoginButtonEnabled()             
+        {
+            return Element(LOGIN_BUTTON).Enabled;
+        }
+        public bool IsInputMailPlaceholderEnabled() 
+        {
+            return Element(INPUT_MAIL_PLACEHOLDER).Enabled;
+        }
+        public bool IsInputPasswordPlaceholderEnabled()
+        {
+            return Element(INPUT_PASSWORD_PLACEHOLDER).Enabled;
         }
     }
 }

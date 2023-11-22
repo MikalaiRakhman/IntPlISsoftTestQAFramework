@@ -3,15 +3,13 @@
     public class User
     {   
         public string MailAdress { get; }
-        public string Password { get; }
-        public string ThemeLetter { get; }
+        public string Password { get; }        
         public string TextLetter { get; }
         public string TextReplyLetter { get; }
-        public User( string mailAdres, string password, string themeLetter, string textLetter, string textReplyLetter)
+        public User( string mailAdres, string password, string textLetter, string textReplyLetter)
         {
             MailAdress = mailAdres;
-            Password = password;
-            ThemeLetter = themeLetter;            
+            Password = password;                        
             TextLetter = textLetter;
             TextReplyLetter = textReplyLetter;
         }
