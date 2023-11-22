@@ -5,7 +5,7 @@ using IntPlLibrary.PagesL;
 using IntPlLibrary;
 namespace IntPlTest
 {
-    [TestClass]
+    [TestClass] 
     public class IntPlTests
     {
         IWebDriver driver;        
